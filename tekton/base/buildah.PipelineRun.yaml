@@ -1,0 +1,24 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: express-app-11
+spec:
+  serviceAccountName: build-bot
+  params:
+    - name: app-name
+      value: express-app-proj
+    - name: source-repo
+      value: https://github.com/cloud-native-garage-method-cohort/johnmoreno-buildah-assigment-express.git
+    - name: image-repo
+      value: quay.io/johnmorenoing/express-app
+  pipelineRef:
+    name: nodejs
+  workspaces:
+    - name: pipeline-shared-data
+      volumeClaimTemplate:
+        spec:
+          resources:
+            requests:
+              storage: 1Gi
+          accessModes:
+            - ReadWriteOnce
